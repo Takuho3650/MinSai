@@ -1,5 +1,9 @@
 var api_key = "AIzaSyAnrCWfPJDCuOOj9X7uy8eHkdrmB5TUnD4";
 let map;
+let marker_shelter = []
+// marker_shelter = [[lat,lng,name], [lat,lng,name]]
+let marker_comment = []
+// marker_comment = [[lat,lng,comment,posted], [lat,lng,comment,posted]]
 
 function View(position) {
     
@@ -21,7 +25,11 @@ function View(position) {
     geo_text += "取得時刻:" + date.toLocaleString() + "\n";
 
     alert(geo_text);
-
+    // APIを叩く、その情報からマーカーを立てる
+    // const marker = new google.maps.Marker({
+    //    position: {lat, lng},
+    //    map
+    // });
 }
 
 function initMap() {
@@ -32,8 +40,8 @@ function initMap() {
     navigator.geolocation.getCurrentPosition(View);
     google.maps.event.addListener(map, 'click', event => clickListener(event, map));
 }
-  
-  
+
+
 function clickListener(event, map) {
     // 座標情報
     const lat = event.latLng.lat();
