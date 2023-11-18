@@ -1,5 +1,6 @@
 var api_key = "AIzaSyAnrCWfPJDCuOOj9X7uy8eHkdrmB5TUnD4";
 let map;
+let marker_prelocate;
 let marker_shelter = []
 // marker_shelter = [[lat,lng,name], [lat,lng,name]]
 let marker_comment = []
@@ -7,9 +8,16 @@ let marker_comment = []
 
 function View(position) {
     
-    const newLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    let lat = position.coords.latitude;
+    let lng =  position.coords.longitude;
+
+    const newLatLng = new google.maps.LatLng(lat, lng);
 
     // マップを新しい位置に移動
+    marker_prelocate = new google.maps.Marker({
+        position: {lat, lng},
+        map
+    });
     map.panTo(newLatLng);
     map.setZoom(15);
     var geo_text = "緯度:" + position.coords.latitude + "\n";
