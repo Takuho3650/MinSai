@@ -9,6 +9,19 @@ let marker_prelocate;
 // クリック地点を示すマーカー
 let marker_new;
 
+// クリック地点のマーカーに付随するウィンドウ
+let contentString =
+    '<div id="content">' +
+    '<div id="bodyContent">' +
+    '<h2>コメントを入力する</h2>' +
+    '<form onsubmit="sendComment()">' +
+    '<input name="comment" type="text">' +
+    '<input type="submit" value="送信">' +
+    '</form>' +
+    "</div>" +
+    "</div>";
+let infowindow;
+
 // 避難所を示すマーカーリスト
 // markers_shelter = [[lat,lng,name], [lat,lng,name]]
 let markers_shelter = []
@@ -134,21 +147,10 @@ function initMap() {
     ////https://lab.syncer.jp/Web/API/Google_Maps/JavaScript/Map/fitBounds/#:~:text=Map.fitBounds()%E3%81%AFMap,%E5%A4%89%E6%9B%B4%E3%81%97%E3%81%A6%E3%81%8F%E3%82%8C%E3%81%BE%E3%81%99%E3%80%82
 
     });
-    const contentString =
-        '<div id="content">' +
-        '<div id="bodyContent">' +
-        '<h2>コメントを入力する</h2>' +
-        '<form onsubmit="sendComment()">' +
-        '<input name="comment" type="text">' +
-        '<input type="submit" value="送信">' +
-        '</form>' +
-        "</div>" +
-        "</div>";
-    const infowindow = new google.maps.InfoWindow({
+    infowindow = new google.maps.InfoWindow({
         content: contentString,
         ariaLabel: "Comment",
     });
-
     marker_new.addListener("click", () => {
         infowindow.open({
             anchor: marker_new,
@@ -172,6 +174,10 @@ function clickListener(event, map) {
     marker_new.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
     //marker設置
     marker_new.setMap(map);
+    infowindow.open({
+        anchor: marker_new,
+        map,
+    });
 
     
 }
