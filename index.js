@@ -395,7 +395,7 @@ function loadCommentMarkers(map) {
             for(let i = 0; i < commentMarkerList.length; i++) {
                 console.log(commentMarkerList[i].lat + 30);
                 const comments = [{time: commentMarkerList[i].time, comment: commentMarkerList[i].comments}];
-                placeCommentMarker(map, null, commentMarkerList[i].lat, commentMarkerList[i].lng, comments);
+                placeCommentPin(map, null, commentMarkerList[i].lat, commentMarkerList[i].lng, comments);
             }
         }
     }
