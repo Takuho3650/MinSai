@@ -27,7 +27,7 @@ function View(position) {
 
     map.panTo(newLatLng);
     map.setZoom(18);
-    var geo_text = "緯度:" + position.coords.latitude + "\n";
+    /*var geo_text = "緯度:" + position.coords.latitude + "\n";
     geo_text += "経度:" + position.coords.longitude + "\n";
     geo_text += "高度:" + position.coords.altitude + "\n";
     geo_text += "位置精度:" + position.coords.accuracy + "\n";
@@ -39,7 +39,7 @@ function View(position) {
 
     geo_text += "取得時刻:" + date.toLocaleString() + "\n";
 
-    alert(geo_text);
+    alert(geo_text);*/
     
     // APIから近辺の避難所情報を取得してピンを立てる
     loadShelters(map, lat-0.1, lng-0.1, lat+0.1, lng+0.1);
@@ -397,8 +397,8 @@ function loadCommentMarkers(map) {
             let commentMarkerList = response.flags; //あとで
             console.log(commentMarkerList);
             for(let i = 0; i < commentMarkerList.length; i++) {
-                console.log(commentMarkerList[i].lat + 30);
-                const comments = [{time: commentMarkerList[i].time, comment: commentMarkerList[i].comments}];
+                let time = new Date(commentMarkerList[i].created_at);
+                const comments = [{time: time.toLocaleString(), comment: commentMarkerList[i].comments}];
                 placeCommentPin(map, null, commentMarkerList[i].lat, commentMarkerList[i].lng, comments);
             }
         }
