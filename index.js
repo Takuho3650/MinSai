@@ -5,19 +5,6 @@ var infoWindow = null;
 
 var map;
 
-// クリック地点のマーカーに付随するウィンドウ
-let contentString =
-    '<div id="content">' +
-    '<div id="bodyContent">' +
-    '<h2>コメントを入力する</h2>' +
-    '<form onsubmit="sendComment()">' +
-    '<input name="comment" type="text">' +
-    '<input type="submit" value="送信">' +
-    '</form>' +
-    "</div>" +
-    "</div>";
-let infowindow;
-
 // 避難所を示すマーカーリスト
 // markers_shelter = [[lat,lng,name], [lat,lng,name]]
 let markers_shelter = []
@@ -175,10 +162,6 @@ function initMap() {
     ////https://lab.syncer.jp/Web/API/Google_Maps/JavaScript/Map/fitBounds/#:~:text=Map.fitBounds()%E3%81%AFMap,%E5%A4%89%E6%9B%B4%E3%81%97%E3%81%A6%E3%81%8F%E3%82%8C%E3%81%BE%E3%81%99%E3%80%82
 
     });
-    infowindow = new google.maps.InfoWindow({
-        content: createMessageForm(),
-        ariaLabel: "Comment",
-    });
     marker_new.addListener("click", () => {
         infowindow.open({
             anchor: marker_new,
@@ -202,10 +185,15 @@ function clickListener(event, map) {
     marker_new.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
     //marker設置
     marker_new.setMap(map);
+    let infowindow = new google.maps.InfoWindow({
+        content: createMessageForm(lat,lng,false),
+        ariaLabel: "Comment",
+    });
     infowindow.open({
         anchor: marker_new,
         map,
     });
+    
 
     
 }
@@ -284,18 +272,14 @@ function createCommentArea(metadata) {
 
 
 //メッセージフォームを作成する
-function createMessageForm(lat, lng) {
+function createMessageForm(lat, lng, add) {
     let formHTML = 
-              '<form class="messageform">'
-            + '  <div class="block">'
-            + '    <label for="name">名前</label>'
-            + '    <input type="text" id="name" name="name">'
-            + '  </div>'
+            '<form name="commentForm" class="messageform" onsubmit="sendComment('+lat+','+lng+','+add+')">'
             + '  <div class="block">'
             + '    <label for="content">メッセージ</label>'
             + '    <textarea id="message" name="content"></textarea>'
             + '  </div>'
-            + '  <button class="formbutton" onclick="send()">送信</button>'
+            + '  <button class="formbutton" type="submit">送信</button>'
             + '</form>';
 
     return formHTML;
@@ -349,7 +333,7 @@ function onAddComment(markerId) {
     marker = gmarkers[markerId];
     let commentHTML = '<div class="commentarea">'
             + createCommentArea(marker.metadata)
-            + createMessageForm(marker.metadata.lat, marker.metadata.lng)
+            + createMessageForm(marker.metadata.lat, marker.metadata.lng,true)
             + '</div>';
 
     if(infoWindow != null) infoWindow.close();
@@ -396,7 +380,32 @@ function loadShelters(map, latMin, lngMin, latMax, lngMax) {
 }
 
 
-function sendComment(lat, lng, username, message) {
-    console.log("lat: " + lat + ", lng: " + lng + ", username: " + username + ", message: " + message);
-    //送信処理
+function sendComment(lat, lng, add) {
+    let message = document.commentForm.content.value;
+    console.log("lat: " + lat + ", lng: " + lng + ", message: " + message);
+    let url;
+    let text;
+    if(add){
+        url= "http://127.0.0.1:8000/flag/"; //送信先
+        text = 'lat='+lat+'&lng='+lng+'&comment='+message;
+    }
+    else{
+        url = "http://127.0.0.1:8000/flags/"+lat+"/"+lng; //送信先
+        text = 'comment='+message;
+    }
+
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if( request.readyState === 4 && request.status === 200 ) {
+            //エラーを出さずに通信が完了した時の処理。例↓
+            console.log( request.responseText );
+        }
+        else{
+            console.log( request.responseText );
+        }
+    }
+
+    request.open("POST", url);
+    request.setRequestHeader( 'content-type', 'application/x-www-form-urlencoded;charset=UTF-8' );
+    request.send( text );
 }
