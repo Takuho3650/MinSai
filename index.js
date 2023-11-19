@@ -56,8 +56,11 @@ function View(position) {
     geo_text += "取得時刻:" + date.toLocaleString() + "\n";
 
     alert(geo_text);
-    // 近辺の避難所情報を取得してピンを立てる
     
+    // APIから近辺の避難所情報を取得してピンを立てる
+    markers_shelter.forEach(function(shelter){
+        
+    });
 }
 
 function initMap() {
