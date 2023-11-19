@@ -2,6 +2,7 @@ var api_key = "AIzaSyAnrCWfPJDCuOOj9X7uy8eHkdrmB5TUnD4";
 const gmarkers = {};
 var markerId = 0;
 var infoWindow = null;
+var infowindow = null;
 
 var map;
 
@@ -25,7 +26,7 @@ function View(position) {
     marker_prelocate.setMap(map);
 
     map.panTo(newLatLng);
-    map.setZoom(15);
+    map.setZoom(18);
     var geo_text = "緯度:" + position.coords.latitude + "\n";
     geo_text += "経度:" + position.coords.longitude + "\n";
     geo_text += "高度:" + position.coords.altitude + "\n";
@@ -46,7 +47,7 @@ function View(position) {
 
 function initMap() {
     var opts = {
-    zoom: 15,
+    zoom: 10,
     center: new google.maps.LatLng(35.709984,139.810703)
     };
     map = new google.maps.Map(document.getElementById("map"), opts);
@@ -185,7 +186,10 @@ function clickListener(event, map) {
     marker_new.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
     //marker設置
     marker_new.setMap(map);
-    let infowindow = new google.maps.InfoWindow({
+    if(infowindow!=null){
+        infowindow.close();
+    }
+    infowindow = new google.maps.InfoWindow({
         content: createMessageForm(lat,lng,false),
         ariaLabel: "Comment",
     });
