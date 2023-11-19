@@ -41,7 +41,7 @@ function View(position) {
     alert(geo_text);
     
     // APIから近辺の避難所情報を取得してピンを立てる
-    
+    loadShelters(map, lat-0.1, lng-0.1, lat+0.1, lng+0.1);
 }
 
 function initMap() {
@@ -78,7 +78,7 @@ function initMap() {
     ];
     placeCommentPin(map, null, 35.707984, 139.797703, commentList2);
 
-    //loadShelters();
+    loadCommentMarkers(map);
 
     marker_prelocate = new google.maps.Marker();
     marker_new = new google.maps.Marker();
@@ -359,18 +359,17 @@ function removePins() {
 
 //避難場所の一覧を取得します。
 function loadShelters(map, latMin, lngMin, latMax, lngMax) {
-    const url = "https://kiwasalog.com/caprice/xhr-cors.html"; //送信先
+    const url = 'http://localhost:8000/shelters/' + latMin + '/' + lngMin + '/' + latMax + '/' + lngMax + '}'; //送信先
 
     let request = new XMLHttpRequest();
     request.onreadystatechange = () => {
         if(request.readyState == 4 && request.status == 200) {
             const response = JSON.parse(request.responseText);
-
+    
             //JSONを適宜加工する
-
-            let shelterList = []; //あとで
+            let shelterList = response.shelters; //あとで
             for(let i = 0; i < shelterList.length; i++) {
-                placeShelterMarker(map, shelterList[i]["name"], shelterList[i]["lat"], shelterList[i]["lng"]);
+                placeShelterMarker(map, shelterList[i][2], shelterList[i][0], shelterList[i][1]);
             }
         }
     }
@@ -378,6 +377,33 @@ function loadShelters(map, latMin, lngMin, latMax, lngMax) {
     request.open("GET", url);
     request.send();
 }
+
+//現在登録されているピンの一覧を取得します。
+function loadCommentMarkers(map) {
+    const url = 'http://localhost:8000/flags'; //送信先
+
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = () => {
+        console.log("readystate: " + request.readyState);
+        if(request.readyState == 4 && request.status == 200) {
+            const response = JSON.parse(request.responseText);
+            console.log(response);
+    
+            //JSONを適宜加工する
+            let commentMarkerList = response.flags; //あとで
+            console.log(commentMarkerList);
+            for(let i = 0; i < commentMarkerList.length; i++) {
+                console.log(commentMarkerList[i].lat + 30);
+                const comments = [{time: commentMarkerList[i].time, comment: commentMarkerList[i].comments}];
+                placeCommentMarker(map, null, commentMarkerList[i].lat, commentMarkerList[i].lng, comments);
+            }
+        }
+    }
+
+    request.open("GET", url);
+    request.send();
+}
+
 
 
 function sendComment(lat, lng, add) {
