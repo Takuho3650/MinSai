@@ -383,29 +383,37 @@ function loadShelters(map, latMin, lngMin, latMax, lngMax) {
 function sendComment(lat, lng, add) {
     let message = document.commentForm.content.value;
     console.log("lat: " + lat + ", lng: " + lng + ", message: " + message);
-    let url;
-    let text;
-    if(add){
-        url= "http://127.0.0.1:8000/flag/"; //送信先
-        text = 'lat='+lat+'&lng='+lng+'&comment='+message;
-    }
-    else{
-        url = "http://127.0.0.1:8000/flags/"+lat+"/"+lng; //送信先
-        text = 'comment='+message;
-    }
+
+    let data = {
+        "lat": lat,
+        "lng": lng,
+        "comment": message
+    };
+      
+    const url = "http://127.0.0.1:8000/flag/"; //送信先
 
     let request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        if( request.readyState === 4 && request.status === 200 ) {
-            //エラーを出さずに通信が完了した時の処理。例↓
-            console.log( request.responseText );
-        }
-        else{
-            console.log( request.responseText );
+    request.onreadystatechange = () => {
+        if(request.readyState == 4 && request.status == 200) {
+            console.log(request.responseText);
         }
     }
 
     request.open("POST", url);
-    request.setRequestHeader( 'content-type', 'application/x-www-form-urlencoded;charset=UTF-8' );
-    request.send( text );
+    request.setRequestHeader("Content-Type", "application/json"); // Content-Typeを設定
+    request.send( JSON.stringify(data) );
+}
+
+function test(){
+    const url = "http://127.0.0.1:8000/flag/"; //送信先
+
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = () => {
+        if(request.readyState == 4 && request.status == 200) {
+            console.log(request.responseText);
+        }
+    }
+
+    request.open("POST", url);
+    request.send();
 }
