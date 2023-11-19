@@ -1,0 +1,162 @@
+/**属性表示(「指定避難場所」など)**/
+h1 {
+    font-size: 1em;
+    margin: 0.2em;
+    padding: 0.2em 0.5em;
+    width: fit-content;
+    border: 2px solid black;
+    background-color: whitesmoke;
+    color: black;
+}
+
+
+/**地点名表示**/
+h2 {
+    font-size: 1.2em;
+    text-indent: 0.3em;
+    margin: 0.2em;
+    font-weight: bold;
+}
+
+
+/**避難所のデザイン**/
+div.shelter h1 {
+    border: 2px solid green;
+    background: palegreen;
+    color: green;
+}
+
+div.shelter dl {
+    font-size: 1em;
+    text-indent: 0.3em;
+    margin: 0.2em;
+    color: dimgray;
+}
+
+div.shelter div {
+    display: flex;
+}
+
+div.shelter dt{
+    font-weight: bold;
+}
+
+
+/**コメントピンのデザイン**/
+div.commentarea h1{
+    border: 2px solid darkorange;
+    background: lemonchiffon;
+    color: darkorange;
+}
+
+div.commentbox {
+    text-indent: 0.3em;
+    margin: 1em 0.3em 0.3em;
+    padding: 0.5em 1em;
+    border-top: solid 1px darkgray;
+}
+
+div.commentbox h3 {
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0.2em;
+    color: black;
+}
+
+div.commentbox h3 span.time{
+    font-weight: normal;
+    color: dimgray;
+}
+
+div.commentbox p {
+    font-size: 1em;
+    margin: 0.2em;
+}
+
+
+/**フォームのスタイル設定**/
+input,
+button,
+textarea,
+select {
+  /* デフォルトスタイルをリセット */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-family: inherit;
+  border-radius: 0;
+  box-sizing: border-box;
+  font-size: 1em;
+  color: inherit;
+}
+
+form.messageform {
+    text-indent: 0.3em;
+    margin: 1em 0.3em 0.3em;
+    padding: 0.5em 1em;
+    border-top: solid 1px darkgray;
+}
+
+form.messageform label {
+    font-size: 1em;
+    margin: 0.2em;
+    color: black;
+}
+
+form.messageform input {
+    width: 100%;
+    font-size: 1em;
+    margin: 0.2em;
+    color: black;
+    border: 1px solid black;
+}
+
+form.messageform input:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgb(33, 150, 243) inset;
+}
+
+form.messageform textarea {
+    width: 100%;
+    height: 6em;
+    font-size: 1em;
+    margin: 0.2em;
+    color: black;
+    border: 1px solid black;
+}
+
+form.messageform textarea:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgb(33, 150, 243) inset;
+}
+
+form.messageform button:active {
+    background: saddlebrown;
+    box-shadow: none;
+}
+
+button.formbutton {
+    display       : block;
+    margin-left   : auto;
+    font-size     : 8pt;        /* 文字サイズ */
+    text-align    : center;      /* 文字位置   */
+    cursor        : pointer;     /* カーソル   */
+    padding       : 4px 3px;   /* 余白       */
+    background    : #ffa500;     /* 背景色     */
+    color         : #ffffff;     /* 文字色     */
+    line-height   : 1em;         /* 1行の高さ  */
+    opacity       : 1;           /* 透明度     */
+    transition    : .3s;         /* なめらか変化 */
+    box-shadow    : 1px 1px 2px #666666;  /* 影の設定 */
+}
+
+button.formbutton:hover {
+    box-shadow    : none;        /* カーソル時の影消去 */
+    opacity       : 0.8;         /* カーソル時透明度 */
+}
+
+button.formbutton:active {
+    box-shadow    : none;        /* カーソル時の影消去 */
+    opacity       : 1.0;         /* カーソル時透明度 */
+    background    : #7a5104;     /* 背景色     */
+}
