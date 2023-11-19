@@ -7,13 +7,17 @@
 </head>
 <body>
     <div>
-        <div id="map" style="width:620px; height:400px"></div>
+        <input
+            id="pac-input"
+            class="controls"
+            type="text"
+            placeholder="Search Box"
+        />
+        <div id="map" style="height:95vh"></div>
         <script src="index.js"></script>
     </div>
-
-    <a onclick="removePins()">ピンをすべて消去</a>
 </body>
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnrCWfPJDCuOOj9X7uy8eHkdrmB5TUnD4&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnrCWfPJDCuOOj9X7uy8eHkdrmB5TUnD4&callback=initMap&libraries=places&v=weekly">
 </script>
 </html>
